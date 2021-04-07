@@ -1,9 +1,8 @@
 spring:
   profiles:
     active: local
-  batch:
-    job:
-      names: ${job.name:NONE}
+
+spring.batch.job.names: ${job.name:NONE}
 ---
 spring:
   datasource:
@@ -18,6 +17,10 @@ spring:
 
 ---
 spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
   datasource:
     hikari:
       jdbc-url: jdbc:mysql://localhost:3306/testdb
