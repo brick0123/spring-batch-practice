@@ -1,7 +1,6 @@
 package com.woodcock.batch.entity;
 
 import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,7 +22,7 @@ public class Product {
   private long price;
 
   @ManyToOne
-  @JoinColumn(name = "store_id", foreignKey = @ForeignKey(name = "FK_PRODUCT_STORE"))
+  @JoinColumn(name = "store_id")
   private Store store;
 
   public Product(String name, long price) {

@@ -9,7 +9,7 @@ import com.woodcock.batch.entity.Store;
 import com.woodcock.batch.repository.StoreHistoryRepository;
 import com.woodcock.batch.repository.StoreRepository;
 import java.time.LocalDate;
-import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.JobExecution;
@@ -34,7 +34,7 @@ class StoreBackupBatchConfigTest {
   StoreHistoryRepository storeHistoryRepository;
 
   @Test
-  @Disabled("n+1트 테스트")
+  @DisplayName("n+1트 테스트")
   void batch_test() throws Exception {
     // given
     Store store1 = new Store("서점", "서울시 강남구");

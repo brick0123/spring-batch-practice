@@ -2,6 +2,7 @@ package com.woodcock.batch.config;
 
 import com.woodcock.batch.entity.Store;
 import com.woodcock.batch.entity.StoreHistory;
+import com.woodcock.batch.reader.JpaPagingFetchItemReader;
 import java.util.HashMap;
 import java.util.Map;
 import javax.persistence.EntityManagerFactory;
@@ -14,14 +15,12 @@ import org.springframework.batch.core.configuration.annotation.StepBuilderFactor
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.database.JpaItemWriter;
-import org.springframework.batch.item.database.JpaPagingItemReader;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @RequiredArgsConstructor
-//@ConditionalOnProperty(name = "job.name", havingValue = JOB_NAME)
 public class StoreBackupBatchConfig {
 
   public static final String JOB_NAME = "storeBackupBatch";
@@ -48,20 +47,20 @@ public class StoreBackupBatchConfig {
   public Step step() {
     return stepBuilderFactory.get(STEP_NAME)
         .<Store, StoreHistory>chunk(chunkSize)
-        .reader(reader(ADDRESS_PARAM))
-        .processor(processor())
-        .writer(writer())
+        .reader(storeReader(ADDRESS_PARAM))
+        .processor(storeProcessor())
+        .writer(storeWriter())
         .build();
   }
   @Bean
   @StepScope
-  public JpaPagingItemReader<Store> reader (
+  public JpaPagingFetchItemReader<Store> storeReader(
       @Value("#{jobParameters[address]}") String address) {
 
     Map<String, Object> parameters = new HashMap<>();
     parameters.put("address", address+"%");
 
-    JpaPagingItemReader<Store> reader = new JpaPagingItemReader<>();
+    JpaPagingFetchItemReader<Store> reader = new JpaPagingFetchItemReader<>();
     reader.setEntityManagerFactory(em);
     reader.setQueryString("select s From Store s where s.address like :address");
     reader.setParameterValues(parameters);
@@ -70,11 +69,11 @@ public class StoreBackupBatchConfig {
     return reader;
   }
 
-  public ItemProcessor<Store, StoreHistory> processor() {
+  public ItemProcessor<Store, StoreHistory> storeProcessor() {
     return item -> new StoreHistory(item, item.getProducts(), item.getEmployees());
   }
 
-  public JpaItemWriter<StoreHistory> writer() {
+  public JpaItemWriter<StoreHistory> storeWriter() {
     JpaItemWriter<StoreHistory> writer = new JpaItemWriter<>();
     writer.setEntityManagerFactory(em);
     return writer;

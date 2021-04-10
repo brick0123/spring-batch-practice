@@ -2,7 +2,6 @@ package com.woodcock.batch.entity;
 
 import java.time.LocalDate;
 import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,7 +24,7 @@ public class Employee {
   private LocalDate hireDate;
 
   @ManyToOne
-  @JoinColumn(name = "store_id", foreignKey = @ForeignKey(name = "FK_EMPLOYEE_STORE"))
+  @JoinColumn(name = "store_id")
   private Store store;
 
   public Employee(String name, LocalDate hireDate) {
