@@ -33,4 +33,12 @@ public class Product {
   public void updateStore(Store store){
     this.store = store;
   }
+
+  public void increaseThousand() {
+    this.price += 1000;
+  }
+
+  public Product(long price) {
+    this.price = price;
+  }
 }
