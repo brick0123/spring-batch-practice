@@ -22,7 +22,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ProcessorNullJobConfig {
 
-  public static final String JOB_NAME = "processorNullBatch";
+  public static final String JOB_NAME = "processorNullJob";
   public static final String BEAN_PREFIX = JOB_NAME + "_";
 
   private final JobBuilderFactory jobBuilderFactory;
